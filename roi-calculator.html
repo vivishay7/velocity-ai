@@ -4,9 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GainIQ | ROI Calculator</title>
+  <title>GainIQ | Proving AI ROI</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -22,6 +24,9 @@
       justify-content: space-between;
       align-items: center;
       color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     nav a {
@@ -36,63 +41,93 @@
       opacity: 0.7;
     }
 
-    .calculator-section {
+    .hero {
       text-align: center;
-      padding: 80px 20px;
+      padding: 100px 20px 120px;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at top left, #c3d9ff, #ffffff);
+      position: relative;
+      overflow: hidden;
     }
 
-    .calculator-section h1 {
-      font-size: 3rem;
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
       color: #0b2c59;
+      animation: slideUp 1s ease forwards;
     }
 
-    .calculator-section p {
-      font-size: 1.2rem;
-      margin: 20px auto 40px;
-      max-width: 700px;
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 720px;
+      margin: 0 auto 30px;
+      animation: fadeIn 1.6s ease forwards;
     }
 
-    .option-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto 40px;
-    }
-
-    .option-card {
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      padding: 20px;
-      text-align: left;
-      transition: transform 0.2s, box-shadow 0.3s;
-      cursor: pointer;
-    }
-
-    .option-card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-    }
-
-    .option-card h3 {
-      margin-top: 0;
-      color: #0b2c59;
-    }
-
-    .calculate-btn {
+    .hero-buttons button {
+      margin: 10px;
+      padding: 14px 28px;
       background-color: #0b2c59;
+      border: none;
       color: white;
       font-size: 1rem;
       font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      padding: 14px 28px;
       cursor: pointer;
-      transition: background 0.3s;
+      border-radius: 6px;
+      transition: transform 0.2s ease, background 0.3s ease;
     }
 
-    .calculate-btn:hover {
+    .hero-buttons button:hover {
+      background-color: #09315e;
+      transform: scale(1.05);
+    }
+
+    .roi-section {
+      padding: 60px 40px;
+      background: #eaf2ff;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 40px 0;
+    }
+
+    .roi-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      border: 2px solid #dbeafe;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .roi-card:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .roi-card.selected {
+      border-color: #1e40af;
+      background: #e0ecff;
+    }
+
+    .cta-button {
+      background-color: #0b2c59;
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
       background-color: #09315e;
     }
 
@@ -103,6 +138,28 @@
       font-size: 0.9rem;
       color: #555;
     }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 
@@ -110,50 +167,51 @@
   <header>
     <div class="logo"><strong>GainIQ</strong></div>
     <nav>
-      <a href="index.html">Home</a>
       <a href="how-it-works.html">How It Works</a>
       <a href="product.html">Product</a>
       <a href="roi-report.html">ROI Report</a>
+      <a href="demo.html">Demo</a>
     </nav>
   </header>
 
-  <section class="calculator-section">
-    <h1>ROI Calculator</h1>
-    <p>Select where you'd like to redeploy AI-freed time. We'll calculate the real-world value based on your inputs.</p>
-
-    <div class="option-grid">
-      <div class="option-card">
-        <h3>Customer Success Ops</h3>
-        <p>Boost resolution rates by shifting AI-saved hours to triage and deep-dive support. Quantify deflection + upsell gains.</p>
-      </div>
-      <div class="option-card">
-        <h3>GTMs / Product Launch</h3>
-        <p>Accelerate time-to-market. Measure revenue pull-forward by applying freed time to unblock GTM delivery gaps.</p>
-      </div>
-      <div class="option-card">
-        <h3>Revenue Pipeline Support</h3>
-        <p>Deploy idle time toward sales prep, lead targeting, and follow-through. Show value through higher pipeline velocity.</p>
-      </div>
-      <div class="option-card">
-        <h3>Contractor Cost Reduction</h3>
-        <p>Reduce external spend by using internal time saved from AI for delivery work. We'll help quantify exact cost offsets.</p>
-      </div>
-      <div class="option-card">
-        <h3>Engineering Backlog Acceleration</h3>
-        <p>Use saved time to attack tech debt or fast-track high-priority product fixes that drive retention.</p>
-      </div>
-      <div class="option-card">
-        <h3>Strategic Initiatives & Innovation</h3>
-        <p>Fuel innovation by applying time toward long-range initiatives like R&D, integrations, or AI strategy execution.</p>
-      </div>
+  <section class="roi-section">
+    <h2 style="text-align: center;">ROI Calculator</h2>
+    <p style="text-align: center;">Select where you'd like to redeploy AI-freed time. We'll calculate the real-world value based on your inputs.</p>
+    <div class="card-grid">
+      <div class="roi-card" onclick="toggleCard(this)"><strong>Customer Success Ops</strong><br><small>Boost resolution rates by shifting AI-saved hours to triage and deep-dive support. Quantify deflection + upsell gains.</small></div>
+      <div class="roi-card" onclick="toggleCard(this)"><strong>GTMs / Product Launch</strong><br><small>Accelerate time-to-market. Measure revenue pull-forward by applying freed time to unblock GTM delivery gaps.</small></div>
+      <div class="roi-card" onclick="toggleCard(this)"><strong>Revenue Pipeline Support</strong><br><small>Deploy idle time toward sales prep, lead targeting, and follow-through. Show value through higher pipeline velocity.</small></div>
+      <div class="roi-card" onclick="toggleCard(this)"><strong>Contractor Cost Reduction</strong><br><small>Reduce external spend by using internal time saved from AI for delivery work. We'll help quantify exact cost offsets.</small></div>
+      <div class="roi-card" onclick="toggleCard(this)"><strong>Engineering Backlog Acceleration</strong><br><small>Use saved time to attack tech debt or fast-track high-priority product fixes that drive retention.</small></div>
+      <div class="roi-card" onclick="toggleCard(this)"><strong>Strategic Initiatives & Innovation</strong><br><small>Fuel innovation by applying time toward long-range initiatives like R&D, integrations, or AI strategy execution.</small></div>
     </div>
-
-    <button class="calculate-btn">Calculate My ROI</button>
+    <div style="text-align: center;">
+      <button class="cta-button" onclick="calculateROI()">Calculate My ROI</button>
+    </div>
   </section>
 
   <footer>
     &copy; 2025 GainIQ. All rights reserved.
   </footer>
+
+  <script>
+    AOS.init();
+
+    function toggleCard(card) {
+      card.classList.toggle("selected");
+    }
+
+    function calculateROI() {
+      const selected = document.querySelectorAll(".roi-card.selected");
+      if (selected.length === 0) {
+        alert("Pick at least one area to redeploy AI time!");
+        return;
+      }
+      const choices = Array.from(selected).map(card => card.innerText.split('\n')[0]);
+      console.log("Selected redeployments:", choices);
+      alert("🚀 ROI calculation incoming for:\n" + choices.join("\n"));
+    }
+  </script>
 </body>
 
 </html>
