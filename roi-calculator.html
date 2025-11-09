@@ -1,207 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROI Calculator</title>
+  <title>GainIQ | ROI Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family: "Poppins", sans-serif;
-      background-color: #f7f9fc;
       margin: 0;
-      padding: 0;
-      color: #333;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #f5f9ff, #e0ecff);
+      color: #0d1c2e;
     }
 
     .container {
-      width: 90%;
       max-width: 1200px;
-      margin: 50px auto;
+      margin: 0 auto;
+      padding: 60px 20px;
       text-align: center;
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.8rem;
+      margin-bottom: 10px;
       color: #0b2c59;
-      margin-bottom: 40px;
     }
 
-    .cards-container {
+    p.subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
-      justify-items: center;
+      justify-content: center;
     }
 
     .card {
-      background-color: #fff;
-      border: 2px solid transparent;
+      background-color: white;
       border-radius: 12px;
-      padding: 25px;
-      width: 100%;
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
+      padding: 24px;
       text-align: left;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      border: 2px solid transparent;
       transition: all 0.3s ease;
       cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-    }
-
-    .card:hover {
-      border-color: #0b2c59;
-      transform: translateY(-3px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 240px;
     }
 
     .card.selected {
       border-color: #0b2c59;
-      background-color: #f1f6ff;
+      background-color: #eaf1ff;
     }
 
     .card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
       color: #0b2c59;
-      font-size: 1.2rem;
+      min-height: 48px;
+      margin-bottom: 10px;
     }
 
     .card p {
+      font-size: 0.98rem;
       margin: 0;
-      font-size: 0.95rem;
-      color: #555;
+      color: #333;
     }
 
     button.cta-btn {
       margin-top: 40px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
       background-color: #0b2c59;
-      color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 12px 28px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease;
     }
 
     button.cta-btn:hover {
       background-color: #09315e;
     }
-
-    /* --- Modal Styling (from new code) --- */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: #fff;
-      border-radius: 10px;
-      padding: 30px 40px;
-      max-width: 500px;
-      width: 90%;
-      text-align: left;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-content h2 {
-      margin-top: 0;
-      font-size: 1.4rem;
-      color: #0b2c59;
-    }
-
-    .modal-content ul {
-      padding-left: 20px;
-    }
-
-    .modal-content ul li {
-      margin-bottom: 8px;
-      color: #333;
-    }
-
-    .close-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #0b2c59;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .close-btn:hover {
-      background-color: #09315e;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Select Focus Areas for ROI Exploration</h1>
-    <div class="cards-container">
-      <div class="card" onclick="toggleSelect(this)">
-        <h3>Operational Efficiency</h3>
-        <p>Reduce manual hours, improve utilization, and enhance process throughput.</p>
-      </div>
-      <div class="card" onclick="toggleSelect(this)">
-        <h3>Financial Planning & Analysis</h3>
-        <p>Automate forecast generation, streamline scenario modeling, and reduce cost of errors.</p>
-      </div>
-      <div class="card" onclick="toggleSelect(this)">
-        <h3>Strategic Initiatives & Innovation</h3>
-        <p>Empower leadership with data-driven initiatives and AI-powered insight loops.</p>
-      </div>
-      <div class="card" onclick="toggleSelect(this)">
-        <h3>Customer Experience</h3>
-        <p>Enhance engagement, reduce churn, and improve personalization with analytics-driven insights.</p>
-      </div>
-    </div>
-
-    <button class="cta-btn" onclick="calculateROI()">Calculate My ROI</button>
-  </div>
-
-  <!-- Modal (from new commit) -->
-  <div class="modal" id="resultModal">
-    <div class="modal-content">
-      <h2>You’re exploring ROI for:</h2>
-      <ul id="selectedAreasList"></ul>
-      <button class="close-btn" onclick="closeModal()">OK</button>
-    </div>
-  </div>
-
-  <script>
-    function toggleSelect(card) {
-      card.classList.toggle('selected');
-    }
-
-    function calculateROI() {
-      const selected = document.querySelectorAll('.card.selected');
-      if (selected.length === 0) return;
-
-      const list = document.getElementById('selectedAreasList');
-      list.innerHTML = '';
-
-      selected.forEach(card => {
-        const title = card.querySelector('h3').innerText;
-        const li = document.createElement('li');
-        li.innerText = title;
-        list.appendChild(li);
-      });
-
-      document.getElementById('resultModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('resultModal').style.display = 'none';
-    }
-  </script>
-</body>
-</html>
