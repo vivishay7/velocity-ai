@@ -2,194 +2,234 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GainIQ | Turn AI into ROI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GainIQ | Proving AI ROI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #f4f6f9, #ffffff);
-      color: #1a1a1a;
-      overflow-x: hidden;
+      background: linear-gradient(to right, #f5f9ff, #e0ecff);
+      color: #0d1c2e;
     }
 
     header {
-      background-color: #003e6b;
-      padding: 1rem 3rem;
+      background-color: #0b2c59;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      animation: fadeInDown 1s ease-out;
-    }
-
-    header h1 {
-      color: #fff;
-      font-size: 2rem;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     nav a {
-      color: #ffffffcc;
-      margin-left: 2rem;
+      margin-left: 20px;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
+      color: white;
+      font-weight: 600;
+      transition: opacity 0.3s;
     }
 
     nav a:hover {
-      color: #ffffff;
+      opacity: 0.7;
     }
 
     .hero {
-      padding: 6rem 2rem 4rem;
-      background: linear-gradient(90deg, #e8f0ff 0%, #ffffff 100%);
       text-align: center;
-      animation: fadeInUp 1.2s ease-out;
+      padding: 100px 20px 80px;
+      min-height: 80vh;
+      background: radial-gradient(ellipse at top left, #c3d9ff, #ffffff);
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero h2 {
-      font-size: 3rem;
-      color: #003e6b;
-      margin-bottom: 1.2rem;
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: #0b2c59;
+      animation: slideUp 1s ease forwards;
     }
 
     .hero p {
-      font-size: 1.25rem;
-      max-width: 800px;
-      margin: 0 auto 2.5rem;
+      font-size: 1.3rem;
+      max-width: 720px;
+      margin: 0 auto 30px;
+      animation: fadeIn 1.6s ease forwards;
     }
 
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .cta-buttons a {
-      background-color: #003e6b;
+    .hero-buttons button {
+      margin: 10px;
+      padding: 14px 28px;
+      background-color: #0b2c59;
+      border: none;
       color: white;
-      padding: 1rem 2rem;
-      text-decoration: none;
-      border-radius: 8px;
+      font-size: 1rem;
       font-weight: 600;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: transform 0.2s ease, background 0.3s ease;
     }
 
-    .cta-buttons a:hover {
-      background-color: #005a9e;
-      transform: translateY(-2px);
+    .hero-buttons button:hover {
+      background-color: #09315e;
+      transform: scale(1.05);
     }
 
-    .value-prop {
-      padding: 4rem 2rem;
-      background: #ffffff;
+    .video-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 60px;
+      padding: 80px 40px;
+      background-color: #f8faff;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+      max-width: 460px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-card iframe {
+      width: 100%;
+      height: 260px;
+      border: none;
+    }
+
+    .video-card-content {
+      padding: 20px;
+    }
+
+    .video-card-content h3 {
+      margin-top: 0;
+      color: #0b2c59;
+      font-size: 1.3rem;
+    }
+
+    .video-card-content p {
+      margin-bottom: 0;
+      font-size: 1rem;
+    }
+
+    .cta {
+      background-color: #0b2c59;
+      color: white;
       text-align: center;
-      animation: fadeInUp 1.5s ease;
+      padding: 50px 20px;
     }
 
-    .value-prop h3 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #003e6b;
+    .cta button {
+      background-color: white;
+      color: #0b2c59;
+      font-weight: 700;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
     }
 
-    .value-prop p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto;
+    .cta button:hover {
+      background-color: #d6e6ff;
     }
 
     footer {
-      background-color: #002f52;
-      color: #fff;
-      padding: 3rem 2rem;
       text-align: center;
-      margin-top: 4rem;
-      animation: fadeIn 1s ease-in;
-    }
-
-    footer p {
-      font-size: 0.95rem;
-    }
-
-    footer a {
-      background: #fff;
-      color: #003e6b;
-      text-decoration: none;
-      padding: 0.9rem 1.6rem;
-      border-radius: 6px;
-      font-weight: 600;
-      margin-top: 1.2rem;
-      display: inline-block;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      padding: 20px;
+      background-color: #f1f5f9;
+      font-size: 0.9rem;
+      color: #555;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>GainIQ</h1>
+    <div class="logo"><strong>GainIQ</strong></div>
     <nav>
       <a href="how-it-works.html">How It Works</a>
       <a href="product.html">Product</a>
-      <a href="roi.html">ROI Report</a>
+      <a href="roi-report.html">ROI Report</a>
       <a href="demo.html">Demo</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h2>From AI Time Savings to Business Value</h2>
-    <p>AI saves hours. GainIQ captures them—and redeploys them to your most critical, high-impact initiatives. Because time saved means nothing until it moves the needle.</p>
-    <div class="cta-buttons">
-      <a href="demo.html">Explore the Product Demo</a>
-      <a href="roi.html">See How GainIQ Proves ROI</a>
+    <h1>Turn AI-Freed Time Into Enterprise Growth</h1>
+    <p>
+      GainIQ redeploys AI-saved hours toward revenue-critical projects, then proves the business impact in real dollars. Not fluff. Not hypotheticals. Just ROI your CFO can sign off on.
+    </p>
+    <div class="hero-buttons">
+      <button onclick="location.href='roi-report.html'">Calculate Your ROI</button>
+      <button onclick="location.href='demo.html'">See Product Demo</button>
     </div>
   </section>
 
-  <section class="value-prop">
-    <h3>We Turn AI Into Growth</h3>
-    <p>GainIQ doesn't just measure AI productivity. We track freed capacity, map it to high-value work, and quantify impact in dollars—not guesses. It's time for AI to stop being a cost center—and start being your growth engine.</p>
+  <section class="video-cards" data-aos="fade-up">
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/ZVO8WtPCNN0" title="Use Case 1" allowfullscreen></iframe>
+      <div class="video-card-content">
+        <h3>From Time Saved to Revenue Gained</h3>
+        <p>See how AI time savings directly accelerated key GTM launch timelines—and saved $250K in contractor costs.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/ZVO8WtPCNN0" title="Use Case 2" allowfullscreen></iframe>
+      <div class="video-card-content">
+        <h3>Critical Support. Reprioritized Fast.</h3>
+        <p>Learn how freed capacity was instantly redeployed to unblock revenue-heavy sales and support pipelines.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" data-aos="fade-in">
+    <h2>Ready to Redeploy Time Where It Matters?</h2>
+    <button onclick="location.href='demo.html'">Book Your Demo Now</button>
+    <p style="margin-top: 20px;">Co-Founders: Aditi Gupta & Anant Mishra</p>
   </section>
 
   <footer>
-    <h4>Ready to Redeploy Time Where It Matters?</h4>
-    <a href="demo.html">Book Your Demo Now</a>
-    <p style="margin-top: 1rem;">Co-Founders: Aditi Gupta & Anant Mishra</p>
+    &copy; 2025 GainIQ. All rights reserved.
   </footer>
+
+  <script>
+    AOS.init();
+  </script>
 </body>
 
 </html>
