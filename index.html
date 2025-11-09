@@ -15,28 +15,31 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f4f6f9;
+      background: linear-gradient(to right, #f4f6f9, #ffffff);
       color: #1a1a1a;
+      overflow-x: hidden;
     }
 
     header {
       background-color: #003e6b;
-      padding: 1rem 2rem;
+      padding: 1rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      animation: fadeInDown 1s ease-out;
     }
 
     header h1 {
       color: #fff;
-      font-size: 1.8rem;
+      font-size: 2rem;
     }
 
     nav a {
       color: #ffffffcc;
-      margin-left: 1.5rem;
+      margin-left: 2rem;
       text-decoration: none;
       font-weight: 500;
+      transition: color 0.3s ease;
     }
 
     nav a:hover {
@@ -44,64 +47,115 @@
     }
 
     .hero {
-      background: linear-gradient(to right, #e9f1f7, #ffffff);
-      padding: 4rem 2rem;
+      padding: 6rem 2rem 4rem;
+      background: linear-gradient(90deg, #e8f0ff 0%, #ffffff 100%);
       text-align: center;
+      animation: fadeInUp 1.2s ease-out;
     }
 
     .hero h2 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: #003e6b;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
 
     .hero p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto 2rem;
+      font-size: 1.25rem;
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
     }
 
     .cta-buttons {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 1.5rem;
     }
 
     .cta-buttons a {
       background-color: #003e6b;
       color: white;
-      padding: 0.9rem 1.8rem;
+      padding: 1rem 2rem;
       text-decoration: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: 600;
-      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
 
     .cta-buttons a:hover {
       background-color: #005a9e;
+      transform: translateY(-2px);
+    }
+
+    .value-prop {
+      padding: 4rem 2rem;
+      background: #ffffff;
+      text-align: center;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .value-prop h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #003e6b;
+    }
+
+    .value-prop p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
     }
 
     footer {
       background-color: #002f52;
       color: #fff;
-      padding: 2rem;
+      padding: 3rem 2rem;
       text-align: center;
       margin-top: 4rem;
+      animation: fadeIn 1s ease-in;
     }
 
     footer p {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     footer a {
       background: #fff;
       color: #003e6b;
       text-decoration: none;
-      padding: 0.7rem 1.4rem;
-      border-radius: 5px;
+      padding: 0.9rem 1.6rem;
+      border-radius: 6px;
       font-weight: 600;
-      margin-top: 1rem;
+      margin-top: 1.2rem;
       display: inline-block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -118,12 +172,17 @@
   </header>
 
   <section class="hero">
-    <h2>Turn AI-Freed Time Into Enterprise Growth</h2>
-    <p>GainIQ helps you redeploy AI-saved hours toward revenue-critical projects and proves the value in real dollars. No fluff. Just ROI you can show your CFO.</p>
+    <h2>From AI Time Savings to Business Value</h2>
+    <p>AI saves hours. GainIQ captures them—and redeploys them to your most critical, high-impact initiatives. Because time saved means nothing until it moves the needle.</p>
     <div class="cta-buttons">
-      <a href="demo.html">See Product Demo</a>
-      <a href="roi.html">How GainIQ Proves AI Value</a>
+      <a href="demo.html">Explore the Product Demo</a>
+      <a href="roi.html">See How GainIQ Proves ROI</a>
     </div>
+  </section>
+
+  <section class="value-prop">
+    <h3>We Turn AI Into Growth</h3>
+    <p>GainIQ doesn't just measure AI productivity. We track freed capacity, map it to high-value work, and quantify impact in dollars—not guesses. It's time for AI to stop being a cost center—and start being your growth engine.</p>
   </section>
 
   <footer>
