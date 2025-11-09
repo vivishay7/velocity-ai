@@ -50,10 +50,11 @@
       border: 2px solid transparent;
       transition: all 0.3s ease;
       cursor: pointer;
-      min-height: 220px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 240px;
     }
 
     .card.selected {
@@ -89,6 +90,57 @@
     }
 
     button.cta-btn:hover {
+      background-color: #09315e;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px 40px;
+      max-width: 500px;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: #0b2c59;
+    }
+
+    .modal-content ul {
+      padding-left: 20px;
+    }
+
+    .modal-content ul li {
+      margin-bottom: 8px;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0b2c59;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
       background-color: #09315e;
     }
   </style>
@@ -129,6 +181,14 @@
     <button class="cta-btn" onclick="calculateROI()">Calculate My ROI</button>
   </div>
 
+  <div class="modal" id="resultModal">
+    <div class="modal-content">
+      <h2>You’re exploring ROI for:</h2>
+      <ul id="selectedAreasList"></ul>
+      <button class="close-btn" onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
   <script>
     function toggleSelect(card) {
       card.classList.toggle('selected');
@@ -141,10 +201,20 @@
         return;
       }
 
-      const areas = Array.from(selected).map(card => card.querySelector('h3').innerText);
-      alert("You're exploring ROI for: \n\n" + areas.join("\n"));
+      const list = document.getElementById('selectedAreasList');
+      list.innerHTML = '';
+      selected.forEach(card => {
+        const title = card.querySelector('h3').innerText;
+        const li = document.createElement('li');
+        li.innerText = title;
+        list.appendChild(li);
+      });
 
-      // In future, route to a detailed results page or modal here
+      document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('resultModal').style.display = 'none';
     }
   </script>
 </body>
