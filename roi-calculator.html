@@ -141,8 +141,17 @@
         return;
       }
 
-      const areas = Array.from(selected).map(card => card.querySelector('h3').innerText);
-      alert("You're exploring ROI for: \n\n" + areas.join("\n"));
+     const list = document.getElementById('selectedAreasList');
+      list.innerHTML = '';
+      selected.forEach(card => {
+        const title = card.querySelector('h3').innerText;
+        const li = document.createElement('li');
+        li.innerText = title;
+        list.appendChild(li);
+      });
+
+      document.getElementById('resultModal').style.display = 'flex';
+    }
 
       // In future, route to a detailed results page or modal here
     }
