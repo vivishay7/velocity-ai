@@ -212,8 +212,8 @@
 
   <div class="hero">
     <h1>VelocityAI Impact Report</h1>
-    <div class="roi-highlight" id="totalROI">$0</div>
-    <p><strong>3-month value unlocked from AI-freed time:</strong> <span id="totalHours">0</span> hours</p>
+    <div class="roi-highlight" id="totalROI"></div>
+    <p><strong>3-month value unlocked from AI-freed time:</strong> <span id="totalHours"></span> hours</p>
     <p>Your teams are now moving faster, spending smarter, and delivering work that actually drives revenue.</p>
     <div class="cta hero-cta">
       <a href="#" onclick="alert('Redirect to demo booking flow')">Book a Demo</a>
@@ -265,6 +265,8 @@
       'Strategic Innovation': ['Engineering', 'Custom RAG Stack', 'FreddyAI']
     };
 
+    const allTools = ['FreddyAI', 'HubSpot CRM', 'Custom RAG Stack', 'Zapier', 'UIPath', 'Blue Prism', 'Notion AI', 'ChatGPT Enterprise', 'Salesforce Einstein', 'Workato', 'DataRobot'];
+
     const initiativeDescriptions = {
       'Customer Success Ops': 'Boosted resolution by triaging AI-freed hours.',
       'Revenue Pipeline Support': 'Repurposed idle time into sales acceleration.',
@@ -274,34 +276,46 @@
       'Strategic Innovation': 'Invested time toward long-term AI and R&D bets.'
     };
 
-    const selectedUseCases = ['Customer Success Ops', 'GTM Launch', 'Strategic Innovation'];
+    const selectedUseCases = ['Customer Success Ops', 'GTM Launch', 'Strategic Innovation']; // dynamically populated
 
-    let roi = selectedUseCases.length * 7344;
-    const baseHours = selectedUseCases.length * 51;
-
-    document.getElementById('totalROI').innerText = `$${roi.toLocaleString()}`;
-    document.getElementById('totalHours').innerText = baseHours;
-
-    const toolsListSet = new Set();
-    const departmentsSet = new Set();
+    const toolsList = new Set();
+    const departmentsList = new Set();
 
     selectedUseCases.forEach(useCase => {
-      useCaseMappings[useCase].forEach(item => {
+      useCaseMappings[useCase]?.forEach(item => {
         if (['Engineering', 'Finance', 'RevOps', 'Marketing', 'Product', 'Customer Success'].includes(item)) {
-          departmentsSet.add(item);
+          departmentsList.add(item);
         } else {
-          toolsListSet.add(item);
+          toolsList.add(item);
         }
       });
     });
 
-    document.getElementById('toolsList').innerHTML = [...toolsListSet].map(tool => `<li class="selected">${tool}</li>`).join('');
-    document.getElementById('departmentsList').innerHTML = [...departmentsSet].map(dep => `<li class="selected">${dep}</li>`).join('');
+    const toolsContainer = document.getElementById('toolsList');
+    allTools.forEach(tool => {
+      const li = document.createElement('li');
+      li.textContent = tool;
+      if (toolsList.has(tool)) li.classList.add('selected');
+      li.addEventListener('click', () => {
+        li.classList.toggle('selected');
+      });
+      toolsContainer.appendChild(li);
+    });
+
+    document.getElementById('departmentsList').innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
 
     const grid = document.getElementById('initiativesGrid');
-    grid.innerHTML = selectedUseCases.map(useCase => {
-      return `<div class="card"><strong>${useCase}:</strong> ${initiativeDescriptions[useCase]}</div>`;
-    }).join('');
+    selectedUseCases.forEach(useCase => {
+      const desc = initiativeDescriptions[useCase];
+      if (desc) {
+        grid.innerHTML += `<div class="card"><strong>${useCase}:</strong> ${desc}</div>`;
+      }
+    });
+
+    const baseHours = selectedUseCases.length * 51;
+    const roi = baseHours * 144;
+    document.getElementById('totalHours').textContent = baseHours;
+    document.getElementById('totalROI').textContent = `$${roi.toLocaleString()}`;
 
     const scenarios = {
       conservative: [1, 1.7, 2.5, 3],
@@ -348,19 +362,13 @@
       });
     }
 
-    let currentScenario = 'baseline';
-
     function updateScenario(type) {
-      currentScenario = type;
-      document.querySelectorAll('.scenario-toggle button').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      document.querySelectorAll('.scenario-toggle button').forEach(btn => btn.classList.remove('active'));
       document.querySelector(`.scenario-toggle button[onclick*="${type}"]`).classList.add('active');
       buildChart(scenarios[type]);
     }
 
-    buildChart(scenarios[currentScenario]);
-    updateScenario(currentScenario);
+    updateScenario('baseline');
   </script>
 </body>
 
