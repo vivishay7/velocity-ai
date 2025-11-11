@@ -13,16 +13,30 @@
       font-family: 'Inter', sans-serif;
       background-color: #f4f8fc;
       color: #1c1c1c;
-      padding: 40px;
+      padding: 0;
+    }
+
+    header {
+      background-color: #002c4e;
+      color: white;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      color: #69d4a3;
+      text-decoration: none;
+      font-weight: 600;
     }
 
     .hero {
       background: #002c4e;
       color: white;
-      border-radius: 16px;
+      border-radius: 0 0 16px 16px;
       padding: 30px;
       text-align: center;
-      margin-bottom: 20px;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
     }
 
@@ -53,7 +67,7 @@
       border-radius: 14px;
       padding: 30px;
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
-      margin-top: 24px;
+      margin: 24px;
     }
 
     .tools-used-section {
@@ -119,11 +133,6 @@
       padding: 16px;
       font-weight: 500;
       min-height: 100px;
-      display: none;
-    }
-
-    .card.visible {
-      display: block;
     }
 
     .highlight-box {
@@ -176,21 +185,13 @@
       font-weight: 600;
       background-color: #002c4e;
       color: white;
-      border: 2px solid transparent;
+      border: none;
       border-radius: 6px;
       cursor: pointer;
     }
 
     .scenario-toggle button.active {
-      border-color: #69d4a3;
-      background-color: #005072;
-    }
-
-    .scenario-caption {
-      margin-top: 12px;
-      font-style: italic;
-      font-size: 0.9rem;
-      color: #444;
+      outline: 3px solid #00bfa6;
     }
 
     .pdf-export {
@@ -211,6 +212,11 @@
 </head>
 
 <body>
+  <header>
+    <div><strong>VelocityAI</strong></div>
+    <a href="/">Back to Home</a>
+  </header>
+
   <div class="hero">
     <h1>VelocityAI Impact Report</h1>
     <div class="roi-highlight" id="totalROI">$22,032</div>
@@ -224,17 +230,38 @@
   <div class="section tools-used-section">
     <div class="tools-used">
       <h3>Tools Used</h3>
-      <ul id="toolsList"></ul>
+      <ul id="toolsList">
+        <li onclick="toggleSelection(this)">Zapier</li>
+        <li onclick="toggleSelection(this)">Custom RAG Stack</li>
+        <li onclick="toggleSelection(this)">UIPath</li>
+        <li onclick="toggleSelection(this)">Blue Prism</li>
+        <li onclick="toggleSelection(this)">FreddyAI</li>
+        <li onclick="toggleSelection(this)">HubSpot CRM</li>
+      </ul>
     </div>
     <div class="departments-affected">
       <h3>Departments Affected</h3>
-      <ul id="departmentsList"></ul>
+      <ul id="departmentsList">
+        <li onclick="toggleSelection(this)">Engineering</li>
+        <li onclick="toggleSelection(this)">RevOps</li>
+        <li onclick="toggleSelection(this)">Finance</li>
+        <li onclick="toggleSelection(this)">Customer Success</li>
+        <li onclick="toggleSelection(this)">Marketing</li>
+        <li onclick="toggleSelection(this)">Product</li>
+      </ul>
     </div>
   </div>
 
   <div class="section">
     <h2>Redeployment Initiatives</h2>
-    <div class="card-grid" id="cardGrid"></div>
+    <div class="card-grid">
+      <div class="card"><strong>Customer Success Ops:</strong> Boosted resolution by triaging AI-freed hours.</div>
+      <div class="card"><strong>Revenue Pipeline Support:</strong> Repurposed idle time into sales acceleration.</div>
+      <div class="card"><strong>Contractor Cost Reduction:</strong> Substituted internal delivery for outsourcing.</div>
+      <div class="card"><strong>GTM Launch:</strong> Deployed hours to close product delivery gaps.</div>
+      <div class="card"><strong>Engineering Backlog:</strong> Cleared tech debt and advanced retention levers.</div>
+      <div class="card"><strong>Strategic Innovation:</strong> Invested time toward long-term AI and R&D bets.</div>
+    </div>
     <div class="highlight-box">
       VelocityAI mapped AI-freed hours to revenue-critical initiatives across teams.
     </div>
@@ -242,14 +269,11 @@
 
   <div class="section">
     <div class="forecast-header">
-      <div>
-        <h2>Forecasted Value (12-Month Projection)</h2>
-        <div class="scenario-caption" id="scenarioInfo">Scenario: Baseline · Tools: 0 · Departments: 0</div>
-      </div>
+      <h2>Forecasted Value (12-Month Projection)</h2>
       <div class="scenario-toggle">
-        <button onclick="updateScenario('conservative')">Conservative</button>
-        <button onclick="updateScenario('baseline')">Baseline</button>
-        <button onclick="updateScenario('aggressive')">Aggressive</button>
+        <button onclick="updateScenario('conservative')" id="btn-conservative">Conservative</button>
+        <button onclick="updateScenario('baseline')" id="btn-baseline">Baseline</button>
+        <button onclick="updateScenario('aggressive')" id="btn-aggressive">Aggressive</button>
       </div>
     </div>
     <canvas id="forecastChart" height="120"></canvas>
@@ -262,7 +286,6 @@
   <script>
     let roi = 22032;
     const baseHours = 153;
-    let currentScenario = 'baseline';
 
     const scenarios = {
       conservative: [1, 1.7, 2.5, 3],
@@ -270,22 +293,12 @@
       aggressive: [1, 2.8, 4.4, 6.2]
     };
 
-    const tools = ['Zapier', 'Custom RAG Stack', 'UIPath', 'Blue Prism', 'FreddyAI', 'HubSpot CRM'];
-    const departments = ['Engineering', 'RevOps', 'Finance', 'Sales', 'Customer Success', 'Product'];
-    const initiatives = [
-      { title: 'Customer Success Ops', desc: 'Boosted resolution by triaging AI-freed hours.' },
-      { title: 'Revenue Pipeline Support', desc: 'Repurposed idle time into sales acceleration.' },
-      { title: 'Contractor Cost Reduction', desc: 'Substituted internal delivery for outsourcing.' },
-      { title: 'GTM Launch', desc: 'Deployed hours to close product delivery gaps.' },
-      { title: 'Engineering Backlog', desc: 'Cleared tech debt and advanced retention levers.' },
-      { title: 'Strategic Innovation', desc: 'Invested time toward long-term AI and R&D bets.' }
-    ];
-
     const ctx = document.getElementById('forecastChart').getContext('2d');
     let chartInstance = null;
 
     function buildChart(values) {
       if (chartInstance) chartInstance.destroy();
+
       chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -319,25 +332,9 @@
       });
     }
 
-    function renderLists() {
-      const toolsList = document.getElementById('toolsList');
-      const deptsList = document.getElementById('departmentsList');
-      toolsList.innerHTML = '';
-      deptsList.innerHTML = '';
-      tools.forEach(tool => toolsList.innerHTML += `<li onclick="toggleSelection(this)">${tool}</li>`);
-      departments.forEach(dept => deptsList.innerHTML += `<li onclick="toggleSelection(this)">${dept}</li>`);
-    }
-
     function toggleSelection(el) {
       el.classList.toggle('selected');
       recalculateROI();
-    }
-
-    function updateScenario(type) {
-      currentScenario = type;
-      document.querySelectorAll('.scenario-toggle button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      buildChart(scenarios[type]);
     }
 
     function recalculateROI() {
@@ -347,27 +344,18 @@
       roi = Math.round(22032 * multiplier);
       document.getElementById('totalROI').textContent = `$${roi.toLocaleString()}`;
       document.getElementById('totalHours').textContent = Math.round(baseHours * multiplier);
-      document.getElementById('scenarioInfo').textContent = `Scenario: ${capitalize(currentScenario)} · Tools: ${selectedTools} · Departments: ${selectedDepts}`;
-      updateInitiatives(selectedDepts);
-      buildChart(scenarios[currentScenario]);
+      updateScenario(currentScenario);
     }
 
-    function updateInitiatives(count) {
-      const grid = document.getElementById('cardGrid');
-      grid.innerHTML = '';
-      initiatives.slice(0, count).forEach(i => {
-        const card = document.createElement('div');
-        card.className = 'card visible';
-        card.innerHTML = `<strong>${i.title}:</strong> ${i.desc}`;
-        grid.appendChild(card);
-      });
+    let currentScenario = 'baseline';
+
+    function updateScenario(type) {
+      currentScenario = type;
+      buildChart(scenarios[type]);
+      document.querySelectorAll('.scenario-toggle button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + type).classList.add('active');
     }
 
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-    renderLists();
     buildChart(scenarios[currentScenario]);
   </script>
 </body>
