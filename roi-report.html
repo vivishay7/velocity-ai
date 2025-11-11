@@ -97,10 +97,10 @@
       font-weight: 500;
       margin-bottom: 10px;
       transition: background-color 0.2s;
+      cursor: pointer;
     }
 
-    .tools-used li.selected,
-    .departments-affected li.selected {
+    .tools-used li.selected {
       background-color: #c2f0e8;
       border-left-color: #00bfa6;
     }
@@ -274,23 +274,19 @@
       'Strategic Innovation': 'Invested time toward long-term AI and R&D bets.'
     };
 
-    let roi = 22032;
-    const baseHours = 153;
+    const toolsPool = [
+      'Zapier', 'Custom RAG Stack', 'UIPath', 'Blue Prism', 'FreddyAI', 'HubSpot CRM',
+      'Notion AI', 'C3.ai', 'Workato', 'Microsoft Copilot', 'ServiceNow AI'
+    ];
 
-    const scenarios = {
-      conservative: [1, 1.7, 2.5, 3],
-      baseline: [1, 2.1, 3.3, 4.8],
-      aggressive: [1, 2.8, 4.4, 6.2]
-    };
-
-    const selectedUseCases = JSON.parse(localStorage.getItem('selectedUseCases')) || ['Customer Success Ops', 'GTM Launch', 'Strategic Innovation'];
+    const selectedUseCases = ['Customer Success Ops', 'GTM Launch', 'Strategic Innovation'];
 
     const departmentsList = new Set();
     const toolsList = new Set();
 
     selectedUseCases.forEach(useCase => {
       useCaseMappings[useCase]?.forEach(item => {
-        if (['Engineering', 'Finance', 'RevOps', 'Marketing', 'Product', 'Customer Success'].includes(item)) {
+        if (["Engineering", "Finance", "RevOps", "Marketing", "Product", "Customer Success"].includes(item)) {
           departmentsList.add(item);
         } else {
           toolsList.add(item);
@@ -298,8 +294,11 @@
       });
     });
 
-    document.getElementById('departmentsList').innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
-    document.getElementById('toolsList').innerHTML = [...toolsList].map(tool => `<li>${tool}</li>`).join('');
+    const departmentsEl = document.getElementById('departmentsList');
+    departmentsEl.innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
+
+    const toolsEl = document.getElementById('toolsList');
+    toolsEl.innerHTML = toolsPool.map(tool => `<li class="${toolsList.has(tool) ? 'selected' : ''}" onclick="this.classList.toggle('selected')">${tool}</li>`).join('');
 
     const grid = document.getElementById('initiativesGrid');
     selectedUseCases.forEach(useCase => {
@@ -321,7 +320,7 @@
           labels: ['Q1', 'Q2', 'Q3', 'Q4'],
           datasets: [{
             label: 'Projected Value ($)',
-            data: values.map(q => Math.round(roi * q)),
+            data: values.map(q => Math.round(22032 * q)),
             borderColor: '#00bfa6',
             tension: 0.4,
             fill: false,
@@ -348,10 +347,13 @@
       });
     }
 
-    let currentScenario = 'baseline';
+    const scenarios = {
+      conservative: [1, 1.7, 2.5, 3],
+      baseline: [1, 2.1, 3.3, 4.8],
+      aggressive: [1, 2.8, 4.4, 6.2]
+    };
 
     function updateScenario(type) {
-      currentScenario = type;
       document.querySelectorAll('.scenario-toggle button').forEach(btn => {
         btn.classList.remove('active');
       });
@@ -359,8 +361,7 @@
       buildChart(scenarios[type]);
     }
 
-    buildChart(scenarios[currentScenario]);
-    updateScenario(currentScenario);
+    updateScenario('baseline');
   </script>
 </body>
 
