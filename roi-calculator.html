@@ -4,248 +4,224 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VelocityAI | ROI Executive Report</title>
+  <title>Velocity AI | ROI Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <script>
-    const useCases = {
-      "Customer Success Ops": [0, 4],
-      "GTMs / Product Launch": [1, 5],
-      "Revenue Pipeline Support": [0, 5],
-      "Contractor Cost Reduction": [2, 3],
-      "Engineering Backlog Acceleration": [4],
-      "Strategic Initiatives & Innovation": [1, 3]
-    };
-
-    const tools = [
-      { name: 'Zapier', hours: 10, initiative: 'Automated lead routing to SDRs (RevOps)' },
-      { name: 'Custom RAG Stack', hours: 30, initiative: 'Accelerated deal desk responses (Finance)' },
-      { name: 'UIPath', hours: 25, initiative: 'Billing automation (Finance)' },
-      { name: 'Blue Prism', hours: 18, initiative: 'Compliance workflow automation (Finance)' },
-      { name: 'FreddyAI', hours: 20, initiative: 'Triage support queries instantly (Engineering)' },
-      { name: 'HubSpot CRM', hours: 50, initiative: 'Automated CRM task updates (RevOps)' }
-    ];
-
-    function updateROI() {
-      const list = document.getElementById('initiativeList');
-      const hoursSpan = document.getElementById('totalHours');
-      const roiSpan = document.getElementById('totalROI');
-
-      let totalHours = 0;
-      list.innerHTML = '';
-
-      tools.forEach((tool, index) => {
-        const cb = document.getElementById(`tool-${index}`);
-        if (cb.checked) {
-          totalHours += tool.hours;
-          const li = document.createElement('div');
-          li.className = 'card';
-          li.innerHTML = `<strong>${tool.name}</strong>: ${tool.initiative}`;
-          list.appendChild(li);
-        }
-      });
-
-      const roi = totalHours * 144;
-      hoursSpan.innerText = totalHours;
-      roiSpan.innerText = `$${roi.toLocaleString()}`;
-      updateForecastGraph(totalHours, roi);
-    }
-
-    function selectUseCase(useCase) {
-      const relevantIndexes = useCases[useCase];
-      tools.forEach((_, index) => {
-        document.getElementById(`tool-${index}`).checked = relevantIndexes.includes(index);
-      });
-      updateROI();
-    }
-
-    function updateForecastGraph(hours, roi) {
-      const ctx = document.getElementById('forecastChart').getContext('2d');
-      const monthlyValue = roi / 3;
-      const yearlyForecast = Array.from({ length: 12 }, (_, i) => Math.round(monthlyValue * (i + 1)));
-      const labels = Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`);
-
-      if (window.forecastChart) window.forecastChart.destroy();
-      window.forecastChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Cumulative Forecasted ROI',
-            data: yearlyForecast,
-            borderColor: '#0b3d91',
-            fill: true,
-            backgroundColor: 'rgba(11, 61, 145, 0.1)',
-            tension: 0.2
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: value => `$${value.toLocaleString()}`
-              }
-            }
-          }
-        }
-      });
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background-color: #f6f8fa;
-      color: #1a1a1a;
-      padding: 40px;
+      background: linear-gradient(to right, #f5f9ff, #e0ecff);
+      color: #0d1c2e;
     }
 
-    .hero {
-      background: #001f4d;
-      color: white;
-      border-radius: 16px;
-      padding: 30px;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
       text-align: center;
-      margin-bottom: 40px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
     }
 
-    .hero h1 {
+    h1 {
       font-size: 2.8rem;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      color: #0b2c59;
     }
 
-    .hero .roi-highlight {
-      font-size: 2.6rem;
-      font-weight: 700;
-      margin: 12px 0;
-      color: #00c48c;
+    p.subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      color: #333;
     }
 
-    h2 {
-      font-size: 1.8rem;
-      margin-top: 40px;
-      color: #001f4d;
-    }
-
-    .section {
-      background: white;
-      border-radius: 14px;
-      padding: 30px;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
-      margin-top: 24px;
-    }
-
-    .row {
+    .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      margin-top: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      justify-content: center;
     }
 
     .card {
-      background-color: #eef4ff;
-      border-left: 5px solid #0b3d91;
-      border-radius: 10px;
-      padding: 16px;
-      margin: 10px 0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      background-color: white;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: left;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
 
-    .checkbox-list label,
-    .usecase-list button {
-      display: block;
+    .card.selected {
+      border-color: #0b2c59;
+      background-color: #eaf1ff;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0b2c59;
+      min-height: 48px;
       margin-bottom: 10px;
-      font-weight: 500;
     }
 
-    .usecase-list button {
-      background-color: #0b3d91;
+    .card p {
+      font-size: 0.98rem;
+      margin: 0;
+      color: #333;
+    }
+
+    button.cta-btn {
+      margin-top: 40px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 700;
       color: white;
+      background-color: #0b2c59;
       border: none;
-      padding: 10px 16px;
-      margin: 6px 0;
-      border-radius: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button.cta-btn:hover {
+      background-color: #09315e;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px 40px;
+      max-width: 500px;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: #0b2c59;
+    }
+
+    .modal-content ul {
+      padding-left: 20px;
+    }
+
+    .modal-content ul li {
+      margin-bottom: 8px;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0b2c59;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
 
-    .highlight-box {
-      background: #e6f2ff;
-      padding: 16px;
-      border-left: 5px solid #0b3d91;
-      border-radius: 10px;
-      margin-top: 16px;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
-    canvas {
-      margin-top: 30px;
+    .close-btn:hover {
+      background-color: #09315e;
     }
   </style>
 </head>
 
-<body onload="updateROI()">
-  <div class="hero">
-    <h1>VelocityAI Impact Report</h1>
-    <div class="roi-highlight" id="totalROI">$21,990</div>
-    <p><strong>3-month value unlocked from AI-freed time:</strong> <span id="totalHours">153</span> hours</p>
-    <p>Your teams are now moving faster, spending smarter, and delivering work that actually drives revenue.</p>
+<body>
+  <div class="container">
+    <h1>ROI Calculator</h1>
+    <p class="subtitle">Select where you'd like to redeploy AI-freed time. We'll calculate the real-world value based on your inputs.</p>
+
+    <div class="grid">
+      <div class="card" onclick="toggleSelect(this)">
+        <h3>Customer Success Ops</h3>
+        <p>Boost resolution rates by shifting AI-saved hours to triage and deep-dive support. Quantify deflection + upsell gains.</p>
+      </div>
+      <div class="card" onclick="toggleSelect(this)">
+        <h3>GTMs / Product Launch</h3>
+        <p>Accelerate time-to-market. Measure revenue pull-forward by applying freed time to unblock GTM delivery gaps.</p>
+      </div>
+      <div class="card" onclick="toggleSelect(this)">
+        <h3>Revenue Pipeline Support</h3>
+        <p>Deploy idle time toward sales prep, lead targeting, and follow-through. Show value through higher pipeline velocity.</p>
+      </div>
+      <div class="card" onclick="toggleSelect(this)">
+        <h3>Contractor Cost Reduction</h3>
+        <p>Reduce external spend by using internal time saved from AI for delivery work. We'll help quantify exact cost offsets.</p>
+      </div>
+      <div class="card" onclick="toggleSelect(this)">
+        <h3>Engineering Backlog Acceleration</h3>
+        <p>Use saved time to attack tech debt or fast-track high-priority product fixes that drive retention.</p>
+      </div>
+      <div class="card" onclick="toggleSelect(this)">
+        <h3>Strategic Initiatives & Innovation</h3>
+        <p>Fuel innovation by applying time toward long-range initiatives like R&D, integrations, or AI strategy execution.</p>
+      </div>
+    </div>
+
+    <button class="cta-btn" onclick="calculateROI()">Calculate My ROI</button>
   </div>
 
-  <div class="section">
-    <h2>Strategic Inputs</h2>
-    <div class="row">
-      <div>
-        <h3>Use Case Selection</h3>
-        <div class="usecase-list">
-          <button onclick="selectUseCase('Customer Success Ops')">Customer Success Ops</button>
-          <button onclick="selectUseCase('GTMs / Product Launch')">GTMs / Product Launch</button>
-          <button onclick="selectUseCase('Revenue Pipeline Support')">Revenue Pipeline Support</button>
-          <button onclick="selectUseCase('Contractor Cost Reduction')">Contractor Cost Reduction</button>
-          <button onclick="selectUseCase('Engineering Backlog Acceleration')">Engineering Backlog Acceleration</button>
-          <button onclick="selectUseCase('Strategic Initiatives & Innovation')">Strategic Initiatives & Innovation</button>
-        </div>
-        <h3 style="margin-top: 20px">Tools Used</h3>
-        <div class="checkbox-list">
-          <label><input type="checkbox" id="tool-0" checked onchange="updateROI()"> Zapier</label>
-          <label><input type="checkbox" id="tool-1" checked onchange="updateROI()"> Custom RAG Stack</label>
-          <label><input type="checkbox" id="tool-2" checked onchange="updateROI()"> UIPath</label>
-          <label><input type="checkbox" id="tool-3" checked onchange="updateROI()"> Blue Prism</label>
-          <label><input type="checkbox" id="tool-4" checked onchange="updateROI()"> FreddyAI</label>
-          <label><input type="checkbox" id="tool-5" checked onchange="updateROI()"> HubSpot CRM</label>
-        </div>
-      </div>
-      <div>
-        <h3>Departments Affected</h3>
-        <ul>
-          <li>Engineering</li>
-          <li>RevOps</li>
-          <li>Finance</li>
-        </ul>
-      </div>
+  <!-- Modal -->
+  <div class="modal" id="resultModal">
+    <div class="modal-content">
+      <h2 id="modalTitle">You’re exploring ROI for:</h2>
+      <ul id="selectedAreasList"></ul>
+      <button class="close-btn" onclick="closeModal(); window.location.href='roi-report.html';">OK</button>
     </div>
   </div>
 
-  <div class="section">
-    <h2>Redeployment Initiatives</h2>
-    <div id="initiativeList"></div>
-    <div class="highlight-box">
-      VelocityAI mapped AI-freed hours to revenue-critical initiatives across teams.
-    </div>
-  </div>
+  <script>
+    function toggleSelect(card) {
+      card.classList.toggle('selected');
+    }
 
-  <div class="section">
-    <h2>Forecasted Value (12-Month Projection)</h2>
-    <canvas id="forecastChart" height="120"></canvas>
-  </div>
+    function calculateROI() {
+      const selected = document.querySelectorAll('.card.selected');
+      const modal = document.getElementById('resultModal');
+      const title = document.getElementById('modalTitle');
+      const list = document.getElementById('selectedAreasList');
+
+      list.innerHTML = '';
+
+      if (selected.length === 0) {
+        title.textContent = 'Please select at least one area to calculate ROI.';
+        modal.style.display = 'flex';
+        return;
+      }
+
+      title.textContent = 'You’re exploring ROI for:';
+      selected.forEach(card => {
+        const li = document.createElement('li');
+        li.textContent = card.querySelector('h3').innerText;
+        list.appendChild(li);
+      });
+
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('resultModal').style.display = 'none';
+    }
+  </script>
 </body>
 
 </html>
