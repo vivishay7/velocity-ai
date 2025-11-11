@@ -212,8 +212,8 @@
 
   <div class="hero">
     <h1>VelocityAI Impact Report</h1>
-    <div class="roi-highlight" id="totalROI">$22,032</div>
-    <p><strong>3-month value unlocked from AI-freed time:</strong> <span id="totalHours">153</span> hours</p>
+    <div class="roi-highlight" id="totalROI">$0</div>
+    <p><strong>3-month value unlocked from AI-freed time:</strong> <span id="totalHours">0</span> hours</p>
     <p>Your teams are now moving faster, spending smarter, and delivering work that actually drives revenue.</p>
     <div class="cta hero-cta">
       <a href="#" onclick="alert('Redirect to demo booking flow')">Book a Demo</a>
@@ -274,39 +274,40 @@
       'Strategic Innovation': 'Invested time toward long-term AI and R&D bets.'
     };
 
-    const toolsPool = [
-      'Zapier', 'Custom RAG Stack', 'UIPath', 'Blue Prism', 'FreddyAI', 'HubSpot CRM',
-      'Notion AI', 'C3.ai', 'Workato', 'Microsoft Copilot', 'ServiceNow AI'
-    ];
-
     const selectedUseCases = ['Customer Success Ops', 'GTM Launch', 'Strategic Innovation'];
 
-    const departmentsList = new Set();
-    const toolsList = new Set();
+    let roi = selectedUseCases.length * 7344;
+    const baseHours = selectedUseCases.length * 51;
+
+    document.getElementById('totalROI').innerText = `$${roi.toLocaleString()}`;
+    document.getElementById('totalHours').innerText = baseHours;
+
+    const toolsListSet = new Set();
+    const departmentsSet = new Set();
 
     selectedUseCases.forEach(useCase => {
-      useCaseMappings[useCase]?.forEach(item => {
-        if (["Engineering", "Finance", "RevOps", "Marketing", "Product", "Customer Success"].includes(item)) {
-          departmentsList.add(item);
+      useCaseMappings[useCase].forEach(item => {
+        if (['Engineering', 'Finance', 'RevOps', 'Marketing', 'Product', 'Customer Success'].includes(item)) {
+          departmentsSet.add(item);
         } else {
-          toolsList.add(item);
+          toolsListSet.add(item);
         }
       });
     });
 
-    const departmentsEl = document.getElementById('departmentsList');
-    departmentsEl.innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
-
-    const toolsEl = document.getElementById('toolsList');
-    toolsEl.innerHTML = toolsPool.map(tool => `<li class="${toolsList.has(tool) ? 'selected' : ''}" onclick="this.classList.toggle('selected')">${tool}</li>`).join('');
+    document.getElementById('toolsList').innerHTML = [...toolsListSet].map(tool => `<li class="selected">${tool}</li>`).join('');
+    document.getElementById('departmentsList').innerHTML = [...departmentsSet].map(dep => `<li class="selected">${dep}</li>`).join('');
 
     const grid = document.getElementById('initiativesGrid');
-    selectedUseCases.forEach(useCase => {
-      const desc = initiativeDescriptions[useCase];
-      if (desc) {
-        grid.innerHTML += `<div class="card"><strong>${useCase}:</strong> ${desc}</div>`;
-      }
-    });
+    grid.innerHTML = selectedUseCases.map(useCase => {
+      return `<div class="card"><strong>${useCase}:</strong> ${initiativeDescriptions[useCase]}</div>`;
+    }).join('');
+
+    const scenarios = {
+      conservative: [1, 1.7, 2.5, 3],
+      baseline: [1, 2.1, 3.3, 4.8],
+      aggressive: [1, 2.8, 4.4, 6.2]
+    };
 
     const ctx = document.getElementById('forecastChart').getContext('2d');
     let chartInstance = null;
@@ -320,7 +321,7 @@
           labels: ['Q1', 'Q2', 'Q3', 'Q4'],
           datasets: [{
             label: 'Projected Value ($)',
-            data: values.map(q => Math.round(22032 * q)),
+            data: values.map(q => Math.round(roi * q)),
             borderColor: '#00bfa6',
             tension: 0.4,
             fill: false,
@@ -347,13 +348,10 @@
       });
     }
 
-    const scenarios = {
-      conservative: [1, 1.7, 2.5, 3],
-      baseline: [1, 2.1, 3.3, 4.8],
-      aggressive: [1, 2.8, 4.4, 6.2]
-    };
+    let currentScenario = 'baseline';
 
     function updateScenario(type) {
+      currentScenario = type;
       document.querySelectorAll('.scenario-toggle button').forEach(btn => {
         btn.classList.remove('active');
       });
@@ -361,7 +359,8 @@
       buildChart(scenarios[type]);
     }
 
-    updateScenario('baseline');
+    buildChart(scenarios[currentScenario]);
+    updateScenario(currentScenario);
   </script>
 </body>
 
