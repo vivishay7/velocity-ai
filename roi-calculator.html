@@ -208,13 +208,17 @@
         return;
       }
 
+      const useCases = [];
       title.textContent = 'You’re exploring ROI for:';
       selected.forEach(card => {
+        const useCase = card.querySelector('h3').innerText;
+        useCases.push(useCase);
         const li = document.createElement('li');
-        li.textContent = card.querySelector('h3').innerText;
+        li.textContent = useCase;
         list.appendChild(li);
       });
 
+      localStorage.setItem('selectedUseCases', JSON.stringify(useCases));
       modal.style.display = 'flex';
     }
 
