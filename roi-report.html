@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=0.75" />
@@ -35,7 +34,7 @@
       border-radius: 16px;
       padding: 30px;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
     }
 
@@ -70,7 +69,7 @@
       border-radius: 14px;
       padding: 30px;
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
-      margin-top: 32px;
+      margin-bottom: 40px;
     }
 
     .tools-used-section {
@@ -78,6 +77,12 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 40px;
+    }
+
+    .tools-used,
+    .departments-affected {
+      flex: 1;
+      min-width: 240px;
     }
 
     .tools-used ul,
@@ -94,7 +99,6 @@
       border-radius: 6px;
       font-weight: 500;
       margin-bottom: 8px;
-      transition: background-color 0.2s;
       cursor: pointer;
     }
 
@@ -103,10 +107,17 @@
       border-left-color: #00bfa6;
     }
 
+    .tools-used h3::after {
+      content: " (Select AI Tools Used)";
+      font-style: italic;
+      font-weight: normal;
+      font-size: 0.9rem;
+    }
+
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
       margin-top: 20px;
     }
 
@@ -116,7 +127,6 @@
       border-radius: 10px;
       padding: 16px;
       font-weight: 500;
-      min-height: 100px;
     }
 
     .highlight-box {
@@ -125,7 +135,7 @@
       color: #002c4e;
       border-left: 5px solid #00bfa6;
       border-radius: 10px;
-      margin-top: 16px;
+      margin-top: 20px;
       font-weight: 600;
     }
 
@@ -134,6 +144,12 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .scenario-toggle {
+      display: flex;
+      gap: 10px;
     }
 
     .scenario-toggle button {
@@ -148,6 +164,7 @@
 
     .scenario-toggle button.active {
       outline: 3px solid #00bfa6;
+      outline-offset: 2px;
     }
 
     #forecastWrapper {
@@ -160,6 +177,7 @@
       margin-top: 12px;
       color: #00bfa6;
       font-weight: 600;
+      font-size: 1.1rem;
     }
 
     .roi-flag {
@@ -189,14 +207,14 @@
 
 <body>
   <header>
-    <a href="https://vivishay7.github.io/velocity-ai/">&larr; Back to Home</a>
+    <a href="https://vivishay7.github.io/velocity-ai/">← Back to Home</a>
   </header>
 
   <div class="hero">
     <h1>VelocityAI Impact Report</h1>
     <div class="roi-highlight" id="totalROI"></div>
-    <p><strong>3-month value unlocked:</strong> <span id="totalHours"></span> hours</p>
-    <p>Time-to-value across GTM, Ops, and Innovation. Tracked via tool usage + ROI impact.</p>
+    <p><strong>3-month value unlocked from AI-freed time:</strong> <span id="totalHours"></span> hours</p>
+    <p>Your teams are now moving faster, spending smarter, and delivering work that actually drives revenue.</p>
     <div class="roi-flag" id="yearlyFlag"></div>
     <div class="cta hero-cta">
       <a href="#" onclick="alert('Redirect to demo booking flow')">Unlock ROI Value-Add Now</a>
@@ -205,7 +223,7 @@
 
   <div class="section tools-used-section">
     <div class="tools-used">
-      <h3>Tools Used (Click to Toggle)</h3>
+      <h3>Tools Used</h3>
       <ul id="toolsList"></ul>
     </div>
     <div class="departments-affected">
@@ -241,9 +259,7 @@
 
   <script>
     const selectedUseCases = JSON.parse(localStorage.getItem('selectedUseCases') || '[]');
-    const toolHourValue = 12;
-    const baseHours = selectedUseCases.length * 51;
-    const allTools = ['FreddyAI', 'HubSpot CRM', 'Custom RAG Stack', 'Zapier', 'UIPath', 'Blue Prism', 'Notion AI', 'ChatGPT Enterprise', 'Salesforce Einstein', 'Workato', 'DataRobot'];
+
     const useCaseMappings = {
       'Customer Success Ops': ['Customer Success', 'FreddyAI', 'HubSpot CRM'],
       'GTMs / Product Launch': ['Marketing', 'Product', 'Custom RAG Stack'],
@@ -254,22 +270,43 @@
     };
 
     const initiativeDescriptions = {
-      'Customer Success Ops': 'Boosted resolution by triaging AI-freed hours.',
-      'Revenue Pipeline Support': 'Repurposed idle time into sales acceleration.',
-      'Contractor Cost Reduction': 'Substituted internal delivery for outsourcing.',
-      'GTMs / Product Launch': 'Deployed hours to close product delivery gaps.',
-      'Engineering Backlog Acceleration': 'Cleared tech debt and advanced retention levers.',
-      'Strategic Initiatives & Innovation': 'Invested time toward long-term AI and R&D bets.'
+      'Customer Success Ops': [
+        'Boosted resolution by triaging AI-freed hours.',
+        'Repurposed time for targeted upsell and onboarding improvements.'
+      ],
+      'GTMs / Product Launch': [
+        'Deployed hours to close product delivery gaps.',
+        'Accelerated enablement across GTM functions to pull forward launch readiness.'
+      ],
+      'Revenue Pipeline Support': [
+        'Repurposed idle time into sales acceleration.',
+        'Enabled RevOps to scale targeting and follow-up sequencing.'
+      ],
+      'Contractor Cost Reduction': [
+        'Substituted internal delivery for outsourcing.',
+        'Diverted team capacity to reduce reliance on external consultants.'
+      ],
+      'Engineering Backlog Acceleration': [
+        'Cleared tech debt and advanced retention levers.',
+        'Fast-tracked fixes and improvements to meet QBR roadmap milestones.'
+      ],
+      'Strategic Initiatives & Innovation': [
+        'Invested time toward long-term AI and R&D bets.',
+        'Freed up bandwidth to lead internal innovation accelerators and prototypes.'
+      ]
     };
 
-    const toolsSet = new Set();
-    const departmentsSet = new Set();
+    const allTools = ['FreddyAI', 'HubSpot CRM', 'Custom RAG Stack', 'Zapier', 'UIPath', 'Blue Prism', 'Notion AI', 'ChatGPT Enterprise', 'Salesforce Einstein', 'Workato', 'DataRobot'];
+
+    const toolsList = new Set();
+    const departmentsList = new Set();
+
     selectedUseCases.forEach(useCase => {
       (useCaseMappings[useCase] || []).forEach(entry => {
         if (['Customer Success', 'Marketing', 'Product', 'Finance', 'Engineering', 'RevOps'].includes(entry)) {
-          departmentsSet.add(entry);
+          departmentsList.add(entry);
         } else {
-          toolsSet.add(entry);
+          toolsList.add(entry);
         }
       });
     });
@@ -278,7 +315,7 @@
     allTools.forEach(tool => {
       const li = document.createElement('li');
       li.textContent = tool;
-      if (toolsSet.has(tool)) li.classList.add('selected');
+      if (toolsList.has(tool)) li.classList.add('selected');
       li.addEventListener('click', () => {
         li.classList.toggle('selected');
         recalculateROI();
@@ -286,29 +323,35 @@
       toolsContainer.appendChild(li);
     });
 
-    document.getElementById('departmentsList').innerHTML = [...departmentsSet].map(dep => `<li>${dep}</li>`).join('');
+    document.getElementById('departmentsList').innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
 
     function updateInitiativesDisplay() {
       const selectedToolNames = Array.from(document.querySelectorAll('#toolsList li.selected')).map(li => li.textContent);
       const grid = document.getElementById('initiativesGrid');
       grid.innerHTML = '';
+
       const activeUseCases = selectedUseCases.filter(useCase =>
         useCaseMappings[useCase]?.some(item => selectedToolNames.includes(item))
       );
+
       activeUseCases.forEach(useCase => {
-        const desc = initiativeDescriptions[useCase];
-        if (desc) {
-          grid.innerHTML += `<div class="card"><strong>${useCase}:</strong> ${desc}</div>`;
-        }
+        const descs = initiativeDescriptions[useCase] || [];
+        descs.forEach((desc, i) => {
+          grid.innerHTML += `<div class="card"><strong>${useCase}${i === 1 ? ' (Cont’d)' : ''}:</strong> ${desc}</div>`;
+        });
       });
     }
 
+    const toolHourValue = 12;
+    const baseHours = selectedUseCases.length * 51;
     let roi = 0;
+
     function recalculateROI() {
       const selectedToolsCount = document.querySelectorAll('#toolsList li.selected').length;
       const extraToolHours = selectedToolsCount * toolHourValue;
       const totalHours = baseHours + extraToolHours;
       roi = totalHours * 144;
+
       document.getElementById('totalHours').textContent = totalHours;
       document.getElementById('totalROI').textContent = `$${roi.toLocaleString()}`;
       document.getElementById('yearlyFlag').textContent = `Forecasted Annual ROI: $${(roi * 4).toLocaleString()}`;
@@ -330,7 +373,9 @@
       const values = scenarios[type];
       const forecastData = values.map(q => Math.round(roi * q));
       const q4Value = forecastData[3];
+
       if (chartInstance) chartInstance.destroy();
+
       chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -365,6 +410,7 @@
           }
         }
       });
+
       document.getElementById('q4Flag').textContent = `Q4 Forecasted Value Unlock: $${q4Value.toLocaleString()}`;
     }
 
@@ -379,5 +425,4 @@
     updateScenario('baseline');
   </script>
 </body>
-
 </html>
