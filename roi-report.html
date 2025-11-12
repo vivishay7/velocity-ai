@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.75" />
   <title>VelocityAI | ROI Executive Report</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -242,140 +242,150 @@
   </div>
 
   <script>
-  const useCaseMappings = {
-    'Customer Success Ops': ['Customer Success', 'FreddyAI', 'HubSpot CRM'],
-    'GTM Launch': ['Marketing', 'Product', 'Custom RAG Stack'],
-    'Revenue Pipeline Support': ['RevOps', 'Zapier', 'HubSpot CRM'],
-    'Contractor Cost Reduction': ['Finance', 'UIPath', 'Blue Prism'],
-    'Engineering Backlog': ['Engineering', 'UIPath'],
-    'Strategic Innovation': ['Engineering', 'Custom RAG Stack', 'FreddyAI']
-  };
+    const useCaseMappings = {
+      'Customer Success Ops': ['Customer Success', 'FreddyAI', 'HubSpot CRM'],
+      'GTM Launch': ['Marketing', 'Product', 'Custom RAG Stack'],
+      'Revenue Pipeline Support': ['RevOps', 'Zapier', 'HubSpot CRM'],
+      'Contractor Cost Reduction': ['Finance', 'UIPath', 'Blue Prism'],
+      'Engineering Backlog': ['Engineering', 'UIPath'],
+      'Strategic Innovation': ['Engineering', 'Custom RAG Stack', 'FreddyAI']
+    };
 
-  const initiativeDescriptions = {
-    'Customer Success Ops': 'Boosted resolution by triaging AI-freed hours.',
-    'Revenue Pipeline Support': 'Repurposed idle time into sales acceleration.',
-    'Contractor Cost Reduction': 'Substituted internal delivery for outsourcing.',
-    'GTM Launch': 'Deployed hours to close product delivery gaps.',
-    'Engineering Backlog': 'Cleared tech debt and advanced retention levers.',
-    'Strategic Innovation': 'Invested time toward long-term AI and R&D bets.'
-  };
+    const initiativeDescriptions = {
+      'Customer Success Ops': 'Boosted resolution by triaging AI-freed hours.',
+      'Revenue Pipeline Support': 'Repurposed idle time into sales acceleration.',
+      'Contractor Cost Reduction': 'Substituted internal delivery for outsourcing.',
+      'GTM Launch': 'Deployed hours to close product delivery gaps.',
+      'Engineering Backlog': 'Cleared tech debt and advanced retention levers.',
+      'Strategic Innovation': 'Invested time toward long-term AI and R&D bets.'
+    };
 
-  const selectedUseCases = Object.keys(useCaseMappings);
-  const toolsList = new Set();
-  const departmentsList = new Set();
+    const selectedUseCases = Object.keys(useCaseMappings);
+    const toolsList = new Set();
+    const departmentsList = new Set();
 
-  selectedUseCases.forEach(useCase => {
-    useCaseMappings[useCase].forEach(entry => {
-      if (['Customer Success', 'Marketing', 'Product', 'Finance', 'Engineering', 'RevOps'].includes(entry)) {
-        departmentsList.add(entry);
-      } else {
-        toolsList.add(entry);
+    selectedUseCases.forEach(useCase => {
+      useCaseMappings[useCase].forEach(entry => {
+        if (['Customer Success', 'Marketing', 'Product', 'Finance', 'Engineering', 'RevOps'].includes(entry)) {
+          departmentsList.add(entry);
+        } else {
+          toolsList.add(entry);
+        }
+      });
+    });
+
+    const allTools = [
+      'FreddyAI', 'HubSpot CRM', 'Custom RAG Stack', 'Zapier', 'UIPath',
+      'Blue Prism', 'Notion AI', 'ChatGPT Enterprise', 'Salesforce Einstein',
+      'Workato', 'DataRobot'
+    ];
+
+    const toolsContainer = document.getElementById('toolsList');
+    allTools.forEach(tool => {
+      const li = document.createElement('li');
+      li.textContent = tool;
+      if (toolsList.has(tool)) li.classList.add('selected');
+      li.addEventListener('click', () => {
+        li.classList.toggle('selected');
+        recalculateROI();
+      });
+      toolsContainer.appendChild(li);
+    });
+
+    document.getElementById('departmentsList').innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
+
+    const grid = document.getElementById('initiativesGrid');
+    selectedUseCases.forEach(useCase => {
+      const desc = initiativeDescriptions[useCase];
+      if (desc) {
+        grid.innerHTML += `<div class="card"><strong>${useCase}:</strong> ${desc}</div>`;
       }
     });
-  });
 
-  const allTools = [
-    'FreddyAI', 'HubSpot CRM', 'Custom RAG Stack', 'Zapier', 'UIPath',
-    'Blue Prism', 'Notion AI', 'ChatGPT Enterprise', 'Salesforce Einstein',
-    'Workato', 'DataRobot'
-  ];
+    const toolHourValue = 12;
+    const baseHours = selectedUseCases.length * 51;
+    let roi = 0;
 
-  const toolsContainer = document.getElementById('toolsList');
-  allTools.forEach(tool => {
-    const li = document.createElement('li');
-    li.textContent = tool;
-    if (toolsList.has(tool)) li.classList.add('selected');
-    li.addEventListener('click', () => {
-      li.classList.toggle('selected');
-      recalculateROI();
-    });
-    toolsContainer.appendChild(li);
-  });
+    function recalculateROI() {
+      const selectedToolsCount = document.querySelectorAll('#toolsList li.selected').length;
+      const extraToolHours = selectedToolsCount * toolHourValue;
+      const totalHours = baseHours + extraToolHours;
+      roi = totalHours * 144;
 
-  document.getElementById('departmentsList').innerHTML = [...departmentsList].map(dep => `<li>${dep}</li>`).join('');
-
-  const grid = document.getElementById('initiativesGrid');
-  selectedUseCases.forEach(useCase => {
-    const desc = initiativeDescriptions[useCase];
-    if (desc) {
-      grid.innerHTML += `<div class="card"><strong>${useCase}:</strong> ${desc}</div>`;
+      document.getElementById('totalHours').textContent = totalHours;
+      document.getElementById('totalROI').textContent = `$${roi.toLocaleString()}`;
+      document.getElementById('yearlyFlag').textContent = `Forecasted Annual ROI: $${(roi * 4).toLocaleString()}`;
+      buildChart(currentScenario);
     }
-  });
 
-  const toolHourValue = 12; // customize per tool, babe
-  const baseHours = selectedUseCases.length * 51;
-  let roi = 0;
+    const scenarios = {
+      conservative: [1, 1.7, 2.5, 3],
+      baseline: [1, 2.1, 3.3, 4.8],
+      aggressive: [1, 2.8, 4.4, 6.2]
+    };
 
-  function recalculateROI() {
-    const selectedToolsCount = document.querySelectorAll('#toolsList li.selected').length;
-    const extraToolHours = selectedToolsCount * toolHourValue;
-    const totalHours = baseHours + extraToolHours;
-    roi = totalHours * 144;
+    const ctx = document.getElementById('forecastChart').getContext('2d');
+    let chartInstance = null;
+    let currentScenario = 'baseline';
 
-    document.getElementById('totalHours').textContent = totalHours;
-    document.getElementById('totalROI').textContent = `$${roi.toLocaleString()}`;
-    document.getElementById('yearlyFlag').textContent = `Forecasted Annual ROI: $${(roi * 4).toLocaleString()}`;
-    buildChart(currentScenario);
-  }
+    function buildChart(type) {
+      const values = scenarios[type];
+      const forecastData = values.map(q => Math.round(roi * q));
+      const q4Value = forecastData[3];
 
-  const scenarios = {
-    conservative: [1, 1.7, 2.5, 3],
-    baseline: [1, 2.1, 3.3, 4.8],
-    aggressive: [1, 2.8, 4.4, 6.2]
-  };
+      if (chartInstance) chartInstance.destroy();
 
-  const ctx = document.getElementById('forecastChart').getContext('2d');
-  let chartInstance = null;
-  let currentScenario = 'baseline';
-
-  function buildChart(values) {
-    if (chartInstance) chartInstance.destroy();
-
-    chartInstance = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-        datasets: [{
-          label: 'Projected Value ($)',
-          data: values.map(q => Math.round(roi * q)),
-          borderColor: '#00bfa6',
-          tension: 0.4,
-          fill: true,
-          backgroundColor: 'rgba(0, 191, 166, 0.1)',
-          pointBackgroundColor: '#00bfa6',
-          pointRadius: 5
-        }]
-      },
-      options: {
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                return `Value: $${context.raw.toLocaleString()}`;
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+          datasets: [{
+            label: 'Projected Value ($)',
+            data: forecastData,
+            borderColor: '#00bfa6',
+            tension: 0.4,
+            fill: true,
+            backgroundColor: 'rgba(0, 191, 166, 0.1)',
+            pointBackgroundColor: '#00bfa6',
+            pointRadius: 6,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `Value: $${context.raw.toLocaleString()}`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: {
+                callback: value => `$${value.toLocaleString()}`
               }
             }
           }
-        },
-        scales: {
-          y: {
-            beginAtZero: false
-          }
         }
-      }
-    });
-  }
+      });
 
-  function updateScenario(type) {
-    currentScenario = type;
-    document.querySelectorAll('.scenario-toggle button').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.scenario-toggle button[onclick*="${type}"]`).classList.add('active');
-    buildChart(scenarios[type]);
-  }
+      document.getElementById('q4Flag').textContent = `Q4 Forecasted Value Unlock: $${q4Value.toLocaleString()}`;
+    }
 
-  // Initial load
-  recalculateROI();
-  updateScenario(currentScenario);
-</script>
+    function updateScenario(type) {
+      currentScenario = type;
+      document.querySelectorAll('.scenario-toggle button').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.scenario-toggle button[onclick*="${type}"]`).classList.add('active');
+      buildChart(type);
+    }
+
+    // Init
+    recalculateROI();
+    updateScenario('baseline');
+  </script>
 
 </body>
 
