@@ -2,178 +2,121 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>How VelocityAI Proves AI Value</title>
-  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #f8faff, #eef2f8);
-      margin: 0;
-      padding: 0;
-      color: #0b2c59;
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
     }
 
-    header, .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
 
-    header h1 {
-      font-size: 2.8rem;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .section-title {
-      font-size: 1.6rem;
-      font-weight: bold;
-      margin: 40px 0 20px;
-      text-align: center;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: 0.3s;
-      border: 2px solid #dee9f7;
-    }
-
-    .card:hover {
-      border-color: #0b2c59;
-    }
-
-    .card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #0b2c59;
-    }
-
-    .card p {
-      font-size: 1rem;
-      color: #333;
-    }
-
-    .cta {
-      margin-top: 50px;
-      text-align: center;
-    }
-
-    .cta button {
-      background-color: #0b2c59;
-      color: white;
-      padding: 14px 28px;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .cta button:hover {
-      background-color: #09315e;
-    }
-
-    .infographic {
-      display: flex;
-      justify-content: center;
-      margin: 40px auto;
-    }
-
-    .infographic img {
-      max-width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 
-<body>
-  <header>
-    <h1>How VelocityAI Proves AI Value</h1>
-    <p>VelocityAI integrates as a <strong>Layer 2</strong> across your existing workflows to convert AI-freed time into measurable business results — faster delivery, smarter spend, and accelerated innovation.</p>
+<body class="bg-gradient-to-b from-slate-50 to-slate-100 text-[#0b2c59] font-sans leading-relaxed">
+
+  <!-- Hero -->
+  <header class="bg-gradient-to-r from-[#e6f0ff] to-[#f9fbff] py-20 px-6 text-center fade-in">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-5xl font-extrabold mb-6 leading-tight">Transform AI Time Into Real Business Value</h1>
+      <p class="text-lg mb-8 text-slate-700">VelocityAI layers seamlessly into your existing tools and workflows — helping teams move faster, spend smarter, and deliver higher-impact outcomes.</p>
+      <button onclick="window.location.href='demo.html'"
+        class="bg-[#0b2c59] text-white px-8 py-3 rounded-xl text-lg font-semibold hover:bg-[#09315e] transition">
+        Try a Demo
+      </button>
+    </div>
   </header>
 
-  <section class="container">
-    <div class="section-title">Layered Value Creation: Core Use Cases</div>
-    <div class="grid">
-      <div class="card">
-        <h3>GTM Acceleration</h3>
-        <p>Deploy AI-freed time to unblock delivery bottlenecks and pull forward revenue. Especially powerful for cross-functional launches.</p>
+  <!-- Use Case Grid -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center mb-10">Layered Value Creation: Core Use Cases</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 fade-in">
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition">
+        <h3 class="font-semibold text-lg mb-2"> GTM Acceleration</h3>
+        <p>Unblock delivery bottlenecks, accelerate launches, and unlock early revenue using freed-up time.</p>
       </div>
-      <div class="card">
-        <h3>Customer Success</h3>
-        <p>Reinvest time in triaging and account expansion to drive retention and increase net revenue retention (NRR).</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition">
+        <h3 class="font-semibold text-lg mb-2"> Customer Success</h3>
+        <p>Shift AI time savings into triage and expansion efforts. Lift retention and NRR with ease.</p>
       </div>
-      <div class="card">
-        <h3>Pipeline Growth</h3>
-        <p>Fuel RevOps and Sales with AI-supported targeting, faster follow-ups, and lower lead-to-close cycle times.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition">
+        <h3 class="font-semibold text-lg mb-2"> Pipeline Growth</h3>
+        <p>Support RevOps + Sales with smart targeting and faster follow-through to drive pipeline velocity.</p>
       </div>
-      <div class="card">
-        <h3>Cost Takeout</h3>
-        <p>Replace contractor spend or BPO work by reinvesting internal bandwidth unlocked by automation and copilots.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition">
+        <h3 class="font-semibold text-lg mb-2"> Cost Takeout</h3>
+        <p>Offset contractor/BPO costs by shifting work back internally through automation gains.</p>
       </div>
-      <div class="card">
-        <h3>Tech Backlog Reduction</h3>
-        <p>Let engineering redeploy saved time into product acceleration or technical debt resolution for faster roadmap delivery.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition">
+        <h3 class="font-semibold text-lg mb-2">⚙️ Tech Backlog</h3>
+        <p>Redeploy time to squash tech debt and accelerate roadmap delivery.</p>
       </div>
-      <div class="card">
-        <h3>Strategic Innovation</h3>
-        <p>Reclaim time for experimentation, AI strategy, integrations, or R&D with tangible business case alignment.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition">
+        <h3 class="font-semibold text-lg mb-2">🔬 Strategic Innovation</h3>
+        <p>Fuel innovation by redirecting time to R&D, integrations, and AI experimentation.</p>
       </div>
     </div>
+  </section>
 
-    <div class="infographic">
-      <img src="assets/layer1-vs-layer2.png" alt="Layer 1 vs Layer 2 AI Value Creation">
-    </div>
+  <!-- Infographic -->
+  <section class="max-w-5xl mx-auto px-6 my-20 text-center fade-in">
+    <h2 class="text-2xl font-bold mb-4">What Makes Layer 2 AI So Powerful?</h2>
+    <p class="text-slate-600 mb-8">While Layer 1 handles tasks, Layer 2 translates that freed capacity into measurable business outcomes.</p>
+    <img src="assets/layer1-vs-layer2.png" alt="Layer 1 vs Layer 2 AI Value Creation"
+      class="rounded-2xl shadow-lg mx-auto w-full max-w-4xl">
+  </section>
 
-    <div class="section-title">Examples of Embedded AI in Action</div>
-    <div class="grid">
-      <div class="card">
-        <h3>CS Team + ChatGPT Enterprise</h3>
-        <p>Used LLMs for first-draft responses and ticket tagging. Repurposed saved hours for upsell targeting in renewals.</p>
+  <!-- Embedded Examples -->
+  <section class="max-w-6xl mx-auto px-6 pb-20 fade-in">
+    <h2 class="text-3xl font-bold text-center mb-10">Embedded AI In the Wild</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">CS Team + ChatGPT Enterprise</h3>
+        <p>LLMs helped triage support tickets. Saved time used for upsell prep and renewal playbooks.</p>
       </div>
-      <div class="card">
-        <h3>Product + Custom RAG Stack</h3>
-        <p>Surfaced instant historical insights and reduced PRD planning by 30%. Increased GTM speed by 2 sprints.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">Product + Custom RAG Stack</h3>
+        <p>Historical insight summaries cut PRD planning time 30%. Teams shipped 2 sprints faster.</p>
       </div>
-      <div class="card">
-        <h3>RevOps + Notion AI</h3>
-        <p>Built a single source of truth, cleaned up CRM, and directed time toward sales enablement and training ramp.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">RevOps + Notion AI</h3>
+        <p>Auto-cleaned CRM and built internal GTM hub. Focus shifted to enablement and onboarding.</p>
       </div>
-      <div class="card">
-        <h3>Marketing + Workato</h3>
-        <p>Automated lead scoring and campaign launches, shifting saved time to customer lifecycle segmentation work.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">Marketing + Workato</h3>
+        <p>Launched campaigns faster with AI and automation. Time redirected to segmentation testing.</p>
       </div>
-      <div class="card">
-        <h3>Finance + UIPath</h3>
-        <p>Automated vendor onboarding + billing QA. Reclaimed bandwidth for FP&A scenario building and modeling.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">Finance + UIPath</h3>
+        <p>Automation cleaned billing workflows. Analysts focused on scenario modeling instead.</p>
       </div>
-      <div class="card">
-        <h3>Data Science + DataRobot</h3>
-        <p>Ran no-code models to validate predictions faster. Focused human time on interpretation and business rollout.</p>
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">Data Science + DataRobot</h3>
+        <p>Ran models in minutes vs hours. Human bandwidth shifted to strategy and rollout alignment.</p>
       </div>
     </div>
+  </section>
 
-    <div class="cta">
-      <button onclick="window.location.href='demo.html'">Book a Demo</button>
-    </div>
+  <!-- Final CTA -->
+  <section class="text-center py-12 bg-[#edf4ff]">
+    <h2 class="text-3xl font-bold mb-4">Ready to See VelocityAI In Action?</h2>
+    <p class="mb-6 text-slate-700">Get a hands-on walkthrough of how your teams can actually unlock the time you're saving with AI.</p>
+    <button onclick="window.location.href='demo.html'"
+      class="bg-[#0b2c59] text-white px-8 py-3 rounded-xl text-lg font-semibold hover:bg-[#09315e] transition">
+      Book Your Demo
+    </button>
   </section>
 </body>
 
